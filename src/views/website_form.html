@@ -1,0 +1,20 @@
+<form id="websiteForm">
+    <fieldset class="uk-fieldset">
+        <legend class="uk-legend">Uruchom strone</legend>
+        <div class="uk-margin">
+            <label><input class="uk-checkbox" type="checkbox" name="findInGoogle"/> Find in Google?</label>
+        </div>
+        <div class="uk-margin">
+            <label>Adres</label>
+            <input class="uk-input" type="text" name="url" placeholder="https://google.com">
+        </div>
+    </fieldset>
+    <div class="uk-flex uk-flex-inline">
+        <div>
+            <button type="submit" class="uk-button uk-button-primary" id="websiteFormBtn">Wyslij</button>
+        </div>
+        <div>
+            <div uk-spinner id="urlSpinner" style="display: none"></div>
+        </div>
+    </div>
+</form>

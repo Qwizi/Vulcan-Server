@@ -1,0 +1,4 @@
+.idea/
+node_modules/
+src/public/screenshoots/*
+!src/public/screenshoots/.gitkeep

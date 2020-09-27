@@ -1,0 +1,118 @@
+<html>
+<head>
+    <title>Test</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/css/uikit.min.css"/>
+    <style>
+        .uk-notification-message {background: #222};
+    </style>
+</head>
+<body>
+<header>
+    <nav class="uk-background-primary uk-light" uk-navbar>
+        <div class="uk-navbar-left">
+            <a class="uk-navbar-item uk-logo" href="http://localhost:3000/">Tarka.exe</a>
+            <ul class="uk-navbar-nav">
+                <li><a href="{{ url_for('main_bp.ss') }}">Zrzuty ekranu</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<main>
+    {% block body %} {% endblock %}
+</main>
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+        integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit-icons.min.js"></script>
+<script>
+    const localStorageAsync = {
+        setItem: async (key, value) => {
+            await null;
+            return localStorage.setItem(key, value)
+        },
+        getItem: async (key) => {
+            await null;
+            return localStorage.getItem(key);
+        }
+    }
+
+    const createSystemInfoLocalStorage = async () => {
+        console.log('Pobieram systemInfo z localStorage');
+        const osInfoFromLS = await localStorageAsync.getItem('systemInfo');
+        console.log('Pobralem systemInfo z localStorage');
+        if (!osInfoFromLS) {
+            console.log('systemInfo nie zostalo stworzone wiec tworze')
+            await localStorageAsync.setItem('systemInfo', JSON.stringify([]));
+            console.log('Systeminfo zostalo stworzone');
+        }
+    }
+
+    const getSystemInfoLocalStorage = async () => {
+        return JSON.parse(await localStorageAsync.getItem('systemInfo'));
+    }
+
+    const addClientToLocalStorage = async (clientId) => {
+        const osInfoFromLS = await getSystemInfoLocalStorage();
+        osInfoFromLS.push({clientId: clientId, details: {}})
+        console.log('Dodaje '+clientId+ ' do systemInfo');
+        await localStorageAsync.setItem('systemInfo', JSON.stringify(osInfoFromLS));
+        console.log('Dodano '+clientId+ ' do systemInfo');
+    }
+
+    const removeClientFromLocalStorage = async (clientId) => {
+        const newArr = await getSystemInfoLocalStorage();
+
+        newArr.splice(newArr.findIndex(item => item.clientId === clientId), 1)
+        console.log('Usuwam '+clientId+ ' z systemInfo');
+        await localStorageAsync.setItem('systemInfo', JSON.stringify(newArr))
+        console.log('Usunieto '+clientId+ ' do systemInfo');
+    }
+
+    const updateClientDetailsLocalStorage = async (clientId, details) => {
+        const osInfoFromLS = await getSystemInfoLocalStorage();
+        if (osInfoFromLS) {
+            const clientOsInfoFromLSIndex = osInfoFromLS.findIndex(item => item.clientId === clientId);
+
+            osInfoFromLS[clientOsInfoFromLSIndex].details = details;
+            await localStorageAsync.setItem('systemInfo', JSON.stringify(osInfoFromLS));
+        }
+    }
+
+    const findClientInLocalStorage = async (clientId) => {
+        const osInfoFromLS = await getSystemInfoLocalStorage();
+        return Promise.resolve(osInfoFromLS.find(item => item.clientId === clientId));
+    }
+
+    let sio = io('/manager');
+
+    sio.on('connect', function() {
+        console.log('I\'m connected');
+        (async () => {
+            await createSystemInfoLocalStorage();
+            console.log('SystemInfo jest gotowe.')
+        })();
+    });
+
+    sio.on('client_connected', (data) => {
+        (async () => {
+            await addClientToLocalStorage(data.client);
+            //UIkit.notification({message: `Polaczono nowego klienta`, pos: 'bottom-right', status: 'success'})
+        })();
+
+
+    })
+
+    sio.on('client_disconnected', (data) => {
+        (async () => {
+            await removeClientFromLocalStorage(data.client);
+            //UIkit.notification({message: `Klient sie rozlaczyl`, pos: 'bottom-right', status: 'danger'})
+        })();
+    })
+    sio.on('notification', (data) => {
+        UIkit.notification({message: data.message, pos: data.pos, status: data.status});
+    })
+</script>
+{% block js %} {% endblock %}
+</body>
+</html>
