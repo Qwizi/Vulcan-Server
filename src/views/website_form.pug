@@ -1,0 +1,15 @@
+form#websiteForm
+    fieldset(class="uk-fieldset")
+        legend(class="uk-legend") Uruchom strone
+        div(class="uk-margin")
+            label Znajdz w wyszukiwarce
+                input(class="uk-checkbox", type="checkbox", name="findInGoogle")
+        div(class="uk-margin")
+            label
+                input(class="uk-input", type="text", name="url", placeholder="https://google.com")
+
+    div(class=["uk-flex", "uk-flex-inline"])
+        div
+            button#websiteFormBtn(type="submit" class=["uk-button", "uk-button-primary"]) Wyslij
+        div
+            div#urlSpinner(uk-spinner, style={display: 'none'})

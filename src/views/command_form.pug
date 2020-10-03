@@ -1,0 +1,19 @@
+form#commandForm
+    fieldset(class="uk-fieldset")
+        legend(class="uk-legend") Wyslij komende
+        div(class="uk-margin")
+            label Komenda
+                input(class="uk-input", type="text", name="command", placeholder="dir")
+        div(class="uk-margin")
+            label Szybkie komendy
+                select#selectCommands(class="uk-select")
+                    option(value="") ----
+                    option(value="dir") dir
+                    option(value="echo \"%cd%\"") pwd
+    div(class=["uk-flex", "uk-flex-inline"])
+        div
+            button#commandFormBtn(type="submit" class=["uk-button", "uk-button-primary"]) Wyslij
+        div
+            button#commandFormBtnClear(type="reset" class=["uk-button", "uk-button-primary"]) Wyczyść
+        div
+            div#commandSpinner(uk-spinner, style={display: 'none'})

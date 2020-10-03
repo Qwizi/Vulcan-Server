@@ -1,0 +1,25 @@
+extends layout.pug
+
+block body
+    div(class="uk-section")
+        div(class=["uk-container", "uk-section-muted", "uk-flex", "uk-flex-column"])
+            div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                div(class="uk-card-header") Zarzadzaj klientem #{client}
+                div(class="uk-card-body")
+                    div(class="flex-inline")
+                        div(class="uk-margin")
+                            button#manageBtnScreenShoot(class=["uk-button", "uk-button-primary"]) Zrzut ekranu
+                    div(class="flex")
+                        div(class="uk-margin")
+                            include website_form.pug
+                        div(class="uk-margin")
+                            div(class=["uk-card", "uk-card-secondary", "uk-card-hover", "uk-margin", "uk-dark"])
+                                div(class="uk-card-header") Konsola
+                                    div#commandResult(class="uk-card-body", style={height: '250px', overflow: 'auto'})
+                                div(class="uk-card-footer")
+                                    include command_form.pug
+
+block append scripts
+    script.
+        const clientId = "#{client}"
+    script(src="http://localhost:3000/static/js/client.js")

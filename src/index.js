@@ -1,19 +1,24 @@
 const express = require('express')
 const app = express();
+const bodyParser = require("body-parser");
 const server = require('http').createServer(app);
 const sio = require('socket.io')(server);
 const swig = require('swig')
 const fs = require('fs')
 const path = require('path')
+const pug = require('pug');
 
-app.engine('html', swig.renderFile)
-app.set('view engine', 'html');
+require('dotenv').config();
 
+app.engine('html', pug.renderFile)
+app.set('view engine', 'pug')
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 let clients = [];
 
 app.get('/', (req, res) => {
-    res.render('index.html', {clients: clients})
+    res.render('index', {clients: clients})
 });
 
 app.get('/client/:clientId/', (req, res) => {
@@ -21,16 +26,19 @@ app.get('/client/:clientId/', (req, res) => {
     const client = clients[clientIndex]
     if (!client) res.redirect('/');
     else {
-        res.render('client.html', {client: client})
+        res.render('client', {client: client})
     }
 
 })
 
-app.use('/public', express.static(__dirname + '/public'));
-
-server.listen(3000, () => {
-    console.log('listening on *:3000');
+app.post('/github/', (req, res) => {
+    if (req.body.action === 'created') {
+        updaterNamespace.emit('download_new_version', req.body)
+    }
 })
+
+app.use('/static/screenshoots/', express.static(__dirname + '/public/screenshoots/'));
+app.use('/static/js/', express.static(__dirname + '/public/js/'));
 
 
 const clientNamespace = sio.of('/clients')
@@ -69,9 +77,9 @@ clientNamespace.on('connection', socket => {
         sio.of('/manager').emit('ss_btn', {state: true})
     })
 
-    socket.on('website', () => {
+    socket.on('website', (data) => {
         sio.of('/manager').emit('website_btn', {state: true})
-        sio.of('/manager').emit('notification', {message: ''})
+        sio.of('/manager').emit('notification', {...data.notification})
     })
 
     socket.on('command', (data) => {
@@ -86,6 +94,7 @@ clientNamespace.on('connection', socket => {
 const managerNamespace = sio.of('/manager')
 
 managerNamespace.on('connection', socket => {
+
     console.log('Manager connected')
 
     socket.on('screenshoot', (data) => {
@@ -112,7 +121,7 @@ managerNamespace.on('connection', socket => {
     socket.on('command', (data) => {
         console.log('Manager chce przeslac komende')
         if (data && data.clientId) {
-            sio.of('/clients').to(data.clientId).emit('command', data)
+            sio.of('/clients').to(data.clientId).emit('command', data.command)
         } else {
             sio.of('/clients').emit('command', data)
         }
@@ -127,4 +136,14 @@ managerNamespace.on('connection', socket => {
     socket.on('fetchSystemInfo', (data) => {
         console.log(data);
     })
+})
+
+const updaterNamespace = sio.of('/updater')
+
+updaterNamespace.on('connection', (socket) => {
+    console.log('Updater connected')
+})
+
+server.listen(3000, () => {
+    console.log('listening on *:3000');
 })

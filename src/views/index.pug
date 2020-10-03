@@ -1,0 +1,29 @@
+extends layout.pug
+
+block body
+    div(class="uk-section")
+        div(class=["uk-container", "uk-section-muted", "uk-flex", "uk-flex-column"])
+            div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                div(class="uk-card-header") Zarządzaj
+                div(class="uk-card-body")
+                    div(class="flex-inline")
+                        div(class="uk-margin")
+                            button#manageBtnScreenShoot(class=["uk-button", "uk-button-primary"]) Zrzut ekranu
+                    div(class="flex")
+                        div(class="uk-margin")
+                            include website_form.pug
+            div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                div(class="uk-card-header") Polączeni klienci
+                div(class="uk-card-body")
+                    table(class=["uk-table", "uk-table-striped"])
+                        thead
+                            tr
+                                th Klient
+                        tbody
+                            each client in clients
+                                tr
+                                    td
+                                        a
+                                            span(data-clientid=client) #{client}
+block append scripts
+    script(src="http://localhost:3000/static/js/index.js")
