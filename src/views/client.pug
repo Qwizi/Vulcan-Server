@@ -19,6 +19,24 @@ block body
                                 div(class="uk-card-footer")
                                     include command_form.pug
 
+            div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                div(class="uk-card-header") Zarzadzaj procesami
+                    div(class="uk-card-body")
+                        div(class="flex")
+                            div(class="uk-margin")
+                                include process_form.pug
+                        div(class="flex")
+                            table#processTable(class=["uk-table", "uk-table-striped"], style={display: "none"})
+                                thead
+                                    tr
+                                        th Title
+                                        th Process Name
+                                        th Process Id
+                                        th Opcje
+                                tbody#processList
+                                span#processSpinner(uk-spinner)
+
+
 block append scripts
     script.
         const clientId = "#{client}"

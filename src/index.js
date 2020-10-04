@@ -89,6 +89,22 @@ clientNamespace.on('connection', socket => {
     socket.on('systemInfo', (data) => {
         sio.of('/manager').emit('systemInfo', data)
     })
+
+    socket.on("process_list", (data) => {
+        sio.of("/manager").emit('process_list', data);
+    });
+
+    socket.on("process_kill", (data) => {
+        sio.of("/manager").emit('process_kill', data);
+    })
+
+    socket.on("process_start", (data) => {
+        sio.of("/manager").emit('process_start', data);
+    })
+
+    socket.on("notification", (data) => {
+        sio.of('/manager').emit('notification', {...data.notification})
+    })
 })
 
 const managerNamespace = sio.of('/manager')
@@ -135,6 +151,18 @@ managerNamespace.on('connection', socket => {
 
     socket.on('fetchSystemInfo', (data) => {
         console.log(data);
+    })
+
+    socket.on('process_list', (data) => {
+        sio.of("/clients").to(data.clientId).emit("process_list");
+    })
+
+    socket.on('process_kill', (data) => {
+        sio.of('/clients').to(data.clientId).emit("process_kill", data);
+    })
+
+    socket.on('process_start', (data) => {
+        sio.of('/clients').to(data.clientId).emit("process_start", data);
     })
 })
 

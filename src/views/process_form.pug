@@ -1,0 +1,11 @@
+form#processForm
+    fieldset(class="uk-fieldset")
+        legend(class="uk-legend") Uruchom process
+        div(class="uk-margin")
+            label
+                input(class="uk-input", type="text", name="processName", placeholder="notepad.exe")
+    div(class=["uk-flex", "uk-flex-inline"])
+        div
+            button#processFormBtn(type="submit" class=["uk-button", "uk-button-primary"]) Wyslij
+        div
+            div#processFormSpinner(uk-spinner, style={display: 'none'})

