@@ -40,4 +40,5 @@ block body
 block append scripts
     script.
         const clientId = "#{client}"
-    script(src="http://localhost:3000/static/js/client.js")
+        const address = "#{address}";
+    script(src=""+address+"/static/js/client.js")

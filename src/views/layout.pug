@@ -8,7 +8,7 @@ html
         header
             nav(class=["uk-background-primary", "uk-light"], uk-navbar)
                 div(class="uk-navbar-left")
-                    a(class=["uk-navbar-item", "uk-logo"], href="http://localhost:3000/") Vulcan Virus
+                    a(class=["uk-navbar-item", "uk-logo"], href="" + address) Vulcan Virus
         main
             block body
         block scripts
@@ -17,6 +17,7 @@ html
                 integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=",
                 crossorigin="anonymous"
                 )
+
             script(src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit.min.js")
             script(src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit-icons.min.js")
-            script(src="http://localhost:3000/static/js/main.js")
+            script(src="" + address + "/static/js/main.js")

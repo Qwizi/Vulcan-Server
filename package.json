@@ -12,8 +12,7 @@
     "pug": "^3.0.0",
     "sequelize": "^6.3.5",
     "socket.io": "^2.3.0",
-    "sqlite3": "^5.0.0",
-    "swig": "^1.4.2"
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {
     "sequelize-cli": "^6.2.0"

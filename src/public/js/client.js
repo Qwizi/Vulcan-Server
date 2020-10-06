@@ -144,5 +144,5 @@ sio.on("process_list", (data) => {
 })
 
 sio.on('client_disconnected', (data) => {
-    window.location.href = "http://localhost:3000";
+    window.location.href = address;
 });

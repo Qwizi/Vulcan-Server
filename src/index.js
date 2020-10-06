@@ -3,12 +3,13 @@ const app = express();
 const bodyParser = require("body-parser");
 const server = require('http').createServer(app);
 const sio = require('socket.io')(server);
-const swig = require('swig')
 const fs = require('fs')
 const path = require('path')
 const pug = require('pug');
 
-require('dotenv').config();
+require('dotenv').config({path: "../.env"});
+
+console.log(process.env.ADDRESS);
 
 app.engine('html', pug.renderFile)
 app.set('view engine', 'pug')
@@ -18,21 +19,27 @@ app.use(bodyParser.json());
 let clients = [];
 
 app.get('/', (req, res) => {
-    res.render('index', {clients: clients})
+    res.render('index', {
+        clients: clients,
+        address: process.env.ADDRESS
+    })
 });
 
 app.get('/client/:clientId/', (req, res) => {
     const clientIndex = clients.indexOf(`/clients#${req.params.clientId}`)
     const client = clients[clientIndex]
-    if (!client) res.redirect('/');
+    if (!client) res.redirect(process.env.ADDRESS);
     else {
-        res.render('client', {client: client})
+        res.render('client', {
+            client: client,
+            address: process.env.ADDRESS
+        })
     }
 
 })
 
 app.post('/github/', (req, res) => {
-    if (req.body.action === 'created') {
+    if (req.body.action === 'released') {
         updaterNamespace.emit('download_new_version', req.body)
     }
 })
