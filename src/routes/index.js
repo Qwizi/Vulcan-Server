@@ -43,15 +43,15 @@ router.post('/login', (req, res) => {
         const User = require('../models/user');
         const username = req.body.username;
         const password = req.body.password;
-        console.log(username);
-        console.log(password);
         if (username && password) {
+            console.log(username);
+            console.log(password);
             /*bcrypt.hash(password, saltRounds, function(err, hash) {
                 const newUser = User.create({username: username, password: hash});
             });*/
             const user = await User.findOne({where: {username: username}});
+            console.log(user.dataValues);
             if (user instanceof User) {
-                console.log(user.dataValues);
                 const matchedPassword = await bcrypt.compare(password, user.dataValues.password);
                 console.log(matchedPassword);
                 if (matchedPassword) {
