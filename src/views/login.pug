@@ -1,0 +1,9 @@
+extends layout.pug
+
+block body
+    div(class="uk-section")
+        div(class=["uk-container", "uk-section-muted", "uk-flex", "uk-flex-column"])
+            div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                div(class="uk-card-header") Musisz sie zalogowac
+                div(class="uk-card-body")
+                    include login_form.pug
