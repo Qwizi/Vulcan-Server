@@ -2,6 +2,9 @@ const mouseManageBtnUp = document.getElementById('mouseManageBtnUp')
 const mouseManageBtnDown = document.getElementById('mouseManageBtnDown')
 const mouseManageBtnLeft = document.getElementById('mouseManageBtnLeft')
 const mouseManageBtnRight = document.getElementById('mouseManageBtnRight')
+const mouseManageBtnClickLeft = document.getElementById('mouseManageBtnClickLeft')
+const mouseManageBtnClickRight = document.getElementById('mouseManageBtnClickRight')
+const mouseManageBtnClickMiddle = document.getElementById('mouseManageBtnClickMiddle')
 
 let mouseTimer;
 let mousePoint = 10;
@@ -10,6 +13,10 @@ const moveMouse = (type, p) => {
     mouseTimer = setInterval(() => {
         sio.emit("mouse", {clientId: clientId, type: type, p: p})
     }, 500)
+}
+
+const clickMouse = (type) => {
+    sio.emit("mouse_click", {clientId: clientId, type: type});
 }
 
 const clearMouseTimer = () => {if (mouseTimer) clearInterval(mouseTimer)};
@@ -53,3 +60,19 @@ mouseManageBtnRight.addEventListener('touchstart', (e) => moveMouse("x", mousePo
 mouseManageBtnRight.addEventListener('mouseup', (e) => clearMouseTimer())
 mouseManageBtnRight.addEventListener('mouseout', (e) => clearMouseTimer())
 mouseManageBtnRight.addEventListener('touchend', (e) => clearMouseTimer())
+
+
+/*
+Myszka lewy przycisk
+ */
+mouseManageBtnClickLeft.addEventListener('click', (e) => clickMouse("left"))
+
+/*
+Myszka prawy przycisk
+ */
+mouseManageBtnClickRight.addEventListener('click', (e) => clickMouse("right"))
+
+/*
+Myszka srodkowy przycisk
+ */
+mouseManageBtnClickRight.addEventListener('click', (e) => clickMouse("middle"))

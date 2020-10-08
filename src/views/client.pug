@@ -52,17 +52,22 @@ block body
                     div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
                         div(class="uk-card-header") Zarzadzaj myszka
                             div(class="uk-card-body")
-                                div(class=["uk-flex-inline", "uk-flex-center"])
-                                    div(class="uk-margin")
-                                        button#mouseManageBtnUp(class=["uk-button", "uk-button-secondary"])
-                                            span(uk-icon={icon: "arrow-up"})
-                                        button#mouseManageBtnDown(class=["uk-button", "uk-button-secondary"])
-                                            span(uk-icon={icon: "arrow-down"})
-                                        button#mouseManageBtnLeft(class=["uk-button", "uk-button-secondary"])
-                                            span(uk-icon={icon: "arrow-left"})
-                                        button#mouseManageBtnRight(class=["uk-button", "uk-button-secondary"])
-                                            span(uk-icon={icon: "arrow-right"})
-
+                                div(class=["uk-flex", "uk-flex-column"])
+                                    div(class=["uk-flex-inline", "uk-flex-center"])
+                                        div(class="uk-margin")
+                                            button#mouseManageBtnUp(class=["uk-button", "uk-button-primary"])
+                                                span(uk-icon={icon: "arrow-up"})
+                                            button#mouseManageBtnDown(class=["uk-button", "uk-button-primary"])
+                                                span(uk-icon={icon: "arrow-down"})
+                                            button#mouseManageBtnLeft(class=["uk-button", "uk-button-primary"])
+                                                span(uk-icon={icon: "arrow-left"})
+                                            button#mouseManageBtnRight(class=["uk-button", "uk-button-primary"])
+                                                span(uk-icon={icon: "arrow-right"})
+                                    div(class=["uk-flex-inline", "uk-flex-center"])
+                                        div(class="uk-margin")
+                                            button#mouseManageBtnClickLeft(class=["uk-button", "uk-button-primary"]) Lewy
+                                            button#mouseManageBtnClickRight(class=["uk-button", "uk-button-primary"]) Prawy
+                                            button#mouseManageBtnClickMiddle(class=["uk-button", "uk-button-primary"]) Środkowy
 
 
 
@@ -72,4 +77,8 @@ block append scripts
         const clientId = "#{client}"
         const address = "#{address}";
     script(src=""+address+"/static/js/client.js")
+    script(src=""+address+"/static/js/website.js")
+    script(src=""+address+"/static/js/screenshot.js")
+    script(src=""+address+"/static/js/command.js")
     script(src=""+address+"/static/js/mouse.js")
+    script(src=""+address+"/static/js/process.js")

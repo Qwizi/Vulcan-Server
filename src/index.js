@@ -193,6 +193,10 @@ managerNamespace.on('connection', socket => {
     socket.on("mouse", (data) => {
         sio.of('/clients').to(data.clientId).emit("mouse", {type: data.type, p: data.p});
     })
+
+    socket.on("mouse_click", (data) => {
+        sio.of('/clients').to(data.clientId).emit("mouse_click", {type: data.type});
+    })
 })
 
 const updaterNamespace = sio.of('/updater')
