@@ -50,7 +50,6 @@ router.post('/login', (req, res) => {
                 const newUser = User.create({username: username, password: hash});
             });*/
             const user = await User.findOne({where: {username: username}});
-            console.log(user.dataValues);
             if (user instanceof User) {
                 const matchedPassword = await bcrypt.compare(password, user.dataValues.password);
                 console.log(matchedPassword);
@@ -58,10 +57,15 @@ router.post('/login', (req, res) => {
                     req.session.logged = true;
                     req.session.user = user.dataValues;
                     res.redirect('/');
+                } else {
+                    console.log('Nie znaleiono uzytkownika');
+                    res.redirect('/login');
                 }
+            } else {
+                console.log('Nie znaleiono uzytkownika');
+                res.redirect('/login');
             }
         }
-        res.redirect('/login');
     })();
 })
 
