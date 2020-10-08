@@ -1,0 +1,9 @@
+form#wallperForm
+    fieldset(class="uk-fieldset")
+        legend(class="uk-legend") Ustaw tapete
+        div(class="uk-margin")
+            label
+                input(class="uk-input", type="text", name="wallper_url", placeholder="http://image.pl/image.png")
+    div(class=["uk-flex", "uk-flex-inline"])
+        div
+            button#processFormBtn(type="submit" class=["uk-button", "uk-button-primary"]) Ustaw
