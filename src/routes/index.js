@@ -49,6 +49,9 @@ router.post('/login', (req, res) => {
             });*/
             const user = await User.findOne({where: {username: username}});
             if (user instanceof User) {
+                console.log(user.dataValues);
+                const matchedPassword = await bcrypt.compare(password, user.dataValues.password);
+                console.log(matchedPassword);
                 const matchedPassword = await bcrypt.compare(password, user.dataValues.password);
                 if (matchedPassword) {
                     req.session.logged = true;
