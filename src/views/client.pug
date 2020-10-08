@@ -2,39 +2,69 @@ extends layout.pug
 
 block body
     div(class="uk-section")
-        div(class=["uk-container", "uk-section-muted", "uk-flex", "uk-flex-column"])
-            div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
-                div(class="uk-card-header") Zarzadzaj klientem #{client}
-                div(class="uk-card-body")
-                    div(class="flex-inline")
-                        div(class="uk-margin")
-                            button#manageBtnScreenShoot(class=["uk-button", "uk-button-primary"]) Zrzut ekranu
-                    div(class="flex")
-                        div(class="uk-margin")
-                            include website_form.pug
-                        div(class="uk-margin")
-                            div(class=["uk-card", "uk-card-secondary", "uk-card-hover", "uk-margin", "uk-dark"])
-                                div(class="uk-card-header") Konsola
-                                    div#commandResult(class="uk-card-body", style={height: '250px', overflow: 'auto'})
-                                div(class="uk-card-footer")
-                                    include command_form.pug
+        div(class=["uk-container", "uk-section-muted", "uk-flex", "uk-flex-column", "uk-flex-center"])
+            ul( uk-tab )
+                li
+                    a(href="#") Zardzadaj
+                li
+                    a(href="#") Konsola
+                li
+                    a(href="#") Procesy
+                li
+                    a(href="#") Myszka
+            ul(class=["uk-switcher", "uk-margin"])
+                li
+                    div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                        div(class="uk-card-header") Zarzadzaj klientem #{client}
+                        div(class="uk-card-body")
+                            div(class="uk-flex-inline")
+                                div(class="uk-margin")
+                                    button#manageBtnScreenShoot(class=["uk-button", "uk-button-primary"]) Zrzut ekranu
+                            div(class="uk-flex")
+                                div(class="uk-margin")
+                                    include website_form.pug
+                li
+                    div(class="uk-margin")
+                        div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin", ])
+                            div(class="uk-card-header") Konsola
+                                div#commandResult(class="uk-card-body", style={height: '250px', overflow: 'auto'})
+                            div(class="uk-card-footer")
+                                include command_form.pug
+                li
+                    div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                        div(class="uk-card-header") Zarzadzaj procesami
+                            div(class="uk-card-body")
+                                div(class="uk-flex")
+                                    div(class="uk-margin")
+                                        include process_form.pug
+                                div(class=["uk-flex"])
+                                    div(class="uk-overflow-auto")
+                                        table#processTable(class=["uk-table", "uk-table-striped", "uk-table-middle", "uk-table-large"], style={display: "none"})
+                                            thead
+                                                tr
+                                                    th Title
+                                                    th Process Name
+                                                    th Process Id
+                                                    th Opcje
+                                            tbody#processList
+                                            span#processSpinner(uk-spinner)
+                li
+                    div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                        div(class="uk-card-header") Zarzadzaj myszka
+                            div(class="uk-card-body")
+                                div(class=["uk-flex-inline", "uk-flex-center"])
+                                    div(class="uk-margin")
+                                        button#mouseManageBtnUp(class=["uk-button", "uk-button-secondary"])
+                                            span(uk-icon={icon: "arrow-up"})
+                                        button#mouseManageBtnDown(class=["uk-button", "uk-button-secondary"])
+                                            span(uk-icon={icon: "arrow-down"})
+                                        button#mouseManageBtnLeft(class=["uk-button", "uk-button-secondary"])
+                                            span(uk-icon={icon: "arrow-left"})
+                                        button#mouseManageBtnRight(class=["uk-button", "uk-button-secondary"])
+                                            span(uk-icon={icon: "arrow-right"})
 
-            div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
-                div(class="uk-card-header") Zarzadzaj procesami
-                    div(class="uk-card-body")
-                        div(class="flex")
-                            div(class="uk-margin")
-                                include process_form.pug
-                        div(class="flex")
-                            table#processTable(class=["uk-table", "uk-table-striped"], style={display: "none"})
-                                thead
-                                    tr
-                                        th Title
-                                        th Process Name
-                                        th Process Id
-                                        th Opcje
-                                tbody#processList
-                                span#processSpinner(uk-spinner)
+
+
 
 
 block append scripts
@@ -42,3 +72,4 @@ block append scripts
         const clientId = "#{client}"
         const address = "#{address}";
     script(src=""+address+"/static/js/client.js")
+    script(src=""+address+"/static/js/mouse.js")

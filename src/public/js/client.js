@@ -69,13 +69,6 @@ selectCommands.addEventListener('change', (e) => {
     commandInput.value = e.target.value;
 });
 
-/*sio.on('systemInfo', function(data) {
-    (async () => {
-        await updateClientDetailsLocalStorage(clientId, data);
-        generateSystemInfo(data);
-    })();
-})*/
-
 sio.on('website_btn', function(data) {
     const state = data.state;
 

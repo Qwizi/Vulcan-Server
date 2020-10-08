@@ -80,6 +80,24 @@ clientNamespace.on('connection', socket => {
                 return console.log(e);
             }
             console.log(`File ${filename} saved`);
+            const imgur = require('imgur');
+
+            imgur.setClientId(process.env.IMGUR_CLIENT_ID);
+            imgur.createAlbum()
+                .then(function(json) {
+                    console.log(json);
+                    imgur.uploadFile(path.join(ssDir, filename), json.id)
+                        .then(function (json) {
+                            console.log(json.data.link);
+                        })
+                        .catch(function (err) {
+                            console.error(err.message);
+                        });
+                })
+                .catch(function (err) {
+                    console.error(err.message);
+                });
+
         })
         sio.of('/manager').emit('ss_btn', {state: true})
     })
@@ -170,6 +188,10 @@ managerNamespace.on('connection', socket => {
 
     socket.on('process_start', (data) => {
         sio.of('/clients').to(data.clientId).emit("process_start", data);
+    })
+
+    socket.on("mouse", (data) => {
+        sio.of('/clients').to(data.clientId).emit("mouse", {type: data.type, p: data.p});
     })
 })
 
