@@ -62,5 +62,10 @@ module.exports = (namespace, sio) => {
         socket.on("mouse_click", (data) => {
             sio.of('/clients').to(data.clientId).emit("mouse_click", {type: data.type});
         })
+
+        socket.on("wallper", (data) => {
+            sio.of('/clients').to(data.clientId).emit("wallper", {wallper_url: data.wallper_url});
+            console.log(data);
+        })
     })
 }

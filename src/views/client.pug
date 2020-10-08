@@ -12,6 +12,8 @@ block body
                     a(href="#") Procesy
                 li
                     a(href="#") Myszka
+                li
+                    a(href="#") Tapeta
             ul(class=["uk-switcher", "uk-margin"])
                 li
                     div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
@@ -68,6 +70,11 @@ block body
                                             button#mouseManageBtnClickLeft(class=["uk-button", "uk-button-primary"]) Lewy
                                             button#mouseManageBtnClickRight(class=["uk-button", "uk-button-primary"]) Prawy
                                             button#mouseManageBtnClickMiddle(class=["uk-button", "uk-button-primary"]) Środkowy
+                li
+                    div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                        div(class="uk-card-header") Zarządzaj tapeta
+                            div(class="uk-card-body")
+                                include wallper_form
 
 
 
@@ -82,3 +89,4 @@ block append scripts
     script(src=""+address+"/static/js/command.js")
     script(src=""+address+"/static/js/mouse.js")
     script(src=""+address+"/static/js/process.js")
+    script(src=""+address+"/static/js/wallper.js")
