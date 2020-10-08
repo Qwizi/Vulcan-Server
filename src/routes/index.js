@@ -43,6 +43,8 @@ router.post('/login', (req, res) => {
         const User = require('../models/user');
         const username = req.body.username;
         const password = req.body.password;
+        console.log(username);
+        console.log(password);
         if (username && password) {
             /*bcrypt.hash(password, saltRounds, function(err, hash) {
                 const newUser = User.create({username: username, password: hash});
