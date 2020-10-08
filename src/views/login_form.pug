@@ -1,0 +1,14 @@
+form#loginForm(method="post")
+    fieldset(class="uk-fieldset")
+        legend(class="uk-legend") Zaloguj sie
+        div(class="uk-margin")
+            label Username
+                input(class="uk-input", type="text", name="username", placeholder="username")
+
+        div(class="uk-margin")
+            label Password
+                input(class="uk-input", type="password", name="password", placeholder="password")
+
+    div(class=["uk-flex", "uk-flex-inline"])
+        div
+            button#websiteFormBtn(type="submit" class=["uk-button", "uk-button-primary"]) Zaloguj

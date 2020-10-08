@@ -1,6 +1,13 @@
+const cache = require('../cache');
+const fs = require('fs');
+const path = require('path');
+
 module.exports = (namespace, sio) => {
     namespace.on('connection', socket => {
         console.log(`Client ${socket.id} connected`)
+        let clients = cache.get('clients');
+        clients.push(socket.id);
+        cache.set('clients', clients);
         //clients.push(socket.id);
         socket.join(socket.id);
         sio.of('/manager').emit('client_connected', {client: socket.id})
@@ -9,8 +16,9 @@ module.exports = (namespace, sio) => {
 
         socket.on('disconnect', () => {
             //console.log(clients);
-            //const clientId = clients.indexOf(socket.id)
-            //clients.splice(clientId, 1)
+            const clientId = clients.indexOf(socket.id)
+            clients.splice(clientId, 1);
+            cache.set('clients', clients);
             console.log(`Client ${socket.id} disconnected`)
             sio.of('/manager').emit('client_disconnected', {client: socket.id})
             sio.of('/manager').emit('notification', {message: `Rozlaczono ${socket.id}`, pos: 'bottom-right', status: 'danger'})

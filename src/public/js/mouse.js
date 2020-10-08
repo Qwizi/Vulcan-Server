@@ -11,6 +11,7 @@ let mousePoint = 10;
 
 const moveMouse = (type, p) => {
     mouseTimer = setInterval(() => {
+        console.log('Klik');
         sio.emit("mouse", {clientId: clientId, type: type, p: p})
     }, 500)
 }

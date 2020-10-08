@@ -4,21 +4,17 @@ const processForm = document.getElementById('processForm');
 
 processForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log('Process');
     const data = getFormData(e.target);
-    console.log(data);
     sio.emit('process_start', data);
 })
 
 
 
 const killProcess = (processId) => {
-    console.log(processId);
     sio.emit("process_kill", {clientId: clientId, processId: processId});
 }
 
 sio.on("process_list", (data) => {
-    console.log(data);
     let processHtml = '';
     data.processes.map(process => {
 
