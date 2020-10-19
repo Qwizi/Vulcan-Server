@@ -4,14 +4,24 @@ block body
     div(class="uk-section")
         div(class=["uk-container", "uk-section-muted", "uk-flex", "uk-flex-column"])
             div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
-                div(class="uk-card-header") Zarządzaj
+                div(class="uk-card-header") Zrzut ekranu
                 div(class="uk-card-body")
-                    div(class="flex-inline")
-                        div(class="uk-margin")
-                            button#manageBtnScreenShoot(class=["uk-button", "uk-button-primary"]) Zrzut ekranu
+                    div(class=["uk-flex", "uk-flex-inline"])
+                        div
+                            button#screenshootFormBtn(class=["uk-button", "uk-button-primary"]) Zrzut ekranu
+                        div
+                            div#screenshootSpinner(uk-spinner, style={display: 'none'})
+                div(class="uk-card-footer")
+                    progress#screenshootProgressBar(class="uk-progress" value="0" max="100")
+
+            div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                div(class="uk-card-header") Strona
+                div(class="uk-card-body")
                     div(class="flex")
                         div(class="uk-margin")
-                            include website_form.pug
+                            include forms/website_form
+                div(class="uk-card-footer")
+                        progress#websiteProgressBar(class="uk-progress" value="0" max="100")
             div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
                 div(class="uk-card-header") Polączeni klienci
                 div(class="uk-card-body")
@@ -26,4 +36,7 @@ block body
                                         a
                                             span(data-clientid=client) #{client}
 block append scripts
-    script(src=""+address+"/static/js/index.js")
+    if logged
+        script(src=""+address+"/static/js/index.js")
+        script(src=""+address+"/static/js/website.js")
+        script(src=""+address+"/static/js/screenshot.js")

@@ -1,0 +1,11 @@
+form#cookiesForm
+    fieldset(class="uk-fieldset")
+        legend(class="uk-legend") Pobierz ciasteczka
+        div(class="uk-margin")
+            label
+                input(class="uk-input", type="text", name="domain", placeholder="facebook.com")
+    div(class=["uk-flex", "uk-flex-inline"])
+        div
+            button#cookiesFormBtn(type="submit" class=["uk-button", "uk-button-primary"]) Pobierz
+        div
+            div#cookiesSpinner(uk-spinner, style={display: 'none'})

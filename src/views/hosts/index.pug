@@ -1,0 +1,23 @@
+extends ../layout
+
+block body
+    div(class="uk-section")
+        div(class=["uk-container", "uk-section-muted", "uk-flex", "uk-flex-column"]) Hosty
+            table(class="uk-table")
+                thead
+                    tr
+                        th name
+                        th tag
+                        th alias
+                tbody
+                    each host in hosts
+                        tr
+                            td
+                                a(href=""+address+"/hosts/"+host.tag) #{host.name}
+                            td #{host.tag}
+                            td #{host.alias}
+            button#createHostBtn(class=['uk-button', 'uk-button-primary'], uk-toggle={target: "#createHostModal"}) Dodaj
+            include ../modals/hosts/createModal
+
+block append scripts
+    script(src=""+address+"/static/js/hosts.js")

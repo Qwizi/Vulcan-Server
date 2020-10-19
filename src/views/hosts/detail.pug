@@ -1,0 +1,15 @@
+extends ../layout
+
+block body
+    div(class="uk-section")
+        div(class=["uk-container", "uk-section-muted", "uk-flex", "uk-flex-column"]) Konta do hostow
+            table(class="uk-table")
+                thead
+                    tr
+                        th username
+                        th password
+                tbody
+                    each account in accounts
+                        tr
+                            td #{account.username}
+                            td #{account.password}}

@@ -7,7 +7,7 @@ const mouseManageBtnClickRight = document.getElementById('mouseManageBtnClickRig
 const mouseManageBtnClickMiddle = document.getElementById('mouseManageBtnClickMiddle')
 
 let mouseTimer;
-let mousePoint = 10;
+let mousePoint = 15;
 
 const moveMouse = (type, p) => {
     mouseTimer = setInterval(() => {

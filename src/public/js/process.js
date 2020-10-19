@@ -1,3 +1,7 @@
+setInterval(() => {
+    sio.emit("process_list", {clientId: clientId});
+}, 2000);
+
 const processList = document.getElementById('processList');
 const processTable = document.getElementById('processTable');
 const processForm = document.getElementById('processForm');

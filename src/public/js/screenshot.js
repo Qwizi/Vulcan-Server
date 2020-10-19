@@ -1,17 +1,14 @@
-const manageBtnScreenShoot = document.getElementById('manageBtnScreenShoot');
+const screenshootFormBtn = document.getElementById('screenshootFormBtn');
 
-manageBtnScreenShoot.addEventListener('click', (e) => {
+if (!isValidClientsCount()) {
+    const idSuffix = 'screenshoot';
+    deactivateSubmitBtn(idSuffix)
+    deactivateInputs(idSuffix);
+}
+
+screenshootFormBtn.addEventListener('click', (e) => {
     sio.emit('screenshoot', {clientId: clientId});
-})
-
-sio.on('ss_btn', function(data) {
-    const state = data.state;
-
-    if (!state) {
-        manageBtnScreenShoot.disabled = true;
-    } else {
-        manageBtnScreenShoot.disabled = false;
-        UIkit.notification({message: 'Pomyslnie zrobiono zrzut ekranu', pos: 'bottom-right', status: 'success'})
-    }
-
+    const idSuffix = 'screenshoot'
+    deactivateSubmitBtn(idSuffix)
+    showSpinner(idSuffix);
 })

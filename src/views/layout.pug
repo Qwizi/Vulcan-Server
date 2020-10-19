@@ -5,12 +5,14 @@ html
         title Vulcan Virus manager
         link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/css/uikit.min.css')
         meta(name="viewport", content="width=device-width, initial-scale=1")
-        style .uk-notification-message {background: #222}
+        style .uk-notification-message {border: 1px solid #222}
     body
         header
             nav(class=["uk-background-primary", "uk-light"], uk-navbar)
                 div(class="uk-navbar-left")
                     a(class=["uk-navbar-item", "uk-logo"], href="" + address) Vulcan Virus
+                    a(class=["uk-navbar-item"], href="" + address + "/ss") Zrzuty ekranu
+                    a(class=["uk-navbar-item"], href="" + address + "/hosts") Hosty
                 if logged
                     div(class="uk-navbar-right")
                         a(class=["uk-navbar-item"], href="" + address+ "/logout") Wyloguj
@@ -24,7 +26,8 @@ html
                 integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=",
                 crossorigin="anonymous"
                 )
-
             script(src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit.min.js")
             script(src="https://cdn.jsdelivr.net/npm/uikit@3.5.7/dist/js/uikit-icons.min.js")
+            script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+            script(src="" + address + "/static/js/vulcanApi.js")
             script(src="" + address + "/static/js/main.js")

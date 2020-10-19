@@ -1,0 +1,10 @@
+form#loginDataForm
+    fieldset(class="uk-fieldset")
+        legend(class="uk-legend") Pobierz dane logwania
+        div(class="uk-margin")
+            label Wybierz przegladarke
+                select(class="uk-select", name="browser")
+                    option(value="chrome", selected=selected) Chrome
+    div(class=["uk-flex", "uk-flex-inline"])
+        div
+            button#loginDataFormBtn(type="submit" class=["uk-button", "uk-button-primary"]) Pobierz

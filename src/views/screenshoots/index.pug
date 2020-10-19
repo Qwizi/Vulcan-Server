@@ -1,0 +1,27 @@
+extends ../layout.pug
+
+block body
+    div(class="uk-section")
+        div(class=["uk-container", "uk-section-muted"])
+            div(class=["uk-flex ", "uk-child-width-1-3@m", "uk-flex-center", "uk-flex-wrap"], uk-lightbox="animation: slide")
+                each image in screenshoots
+                    div(class=["uk-card", "uk-card-default", "uk-card-hover"])
+                        div(class="uk-card-body")
+                            a(class=["uk-inline"] href="/static/screenshoots/" + image.filename data-caption="Caption 1")
+                                img(src="/static/screenshoots/" + image.filename)
+            ul(class=["uk-pagination", "uk-flex-center"] uk-margin)
+                if previous
+                    li
+                        a(href=""+previous.url)
+                            span(uk-pagination-previous)
+                each page in pages
+                    if currentPage == page.number
+                        li(class="uk-active")
+                            a(, href=""+page.url) #{page.number}
+                    else
+                        li
+                            a(href="" + page.url) #{page.number}
+                if next
+                    li
+                        a(href=""+next.url)
+                            span(uk-pagination-next)
