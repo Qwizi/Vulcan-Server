@@ -1,0 +1,13 @@
+form#createActionForm(method="post")
+    fieldset(class="uk-fieldset")
+        legend(class="uk-legend") Utworz akcje
+        div(class="uk-margin")
+            label Name
+                input(class="uk-input", type="text", name="name", placeholder="name" autofocus=true)
+        div(class="uk-margin")
+            label Tag
+                input(class="uk-input", type="text", name="tag", placeholder="tag" autofocus=true)
+
+    div(class=["uk-flex", "uk-flex-inline"])
+        div
+            button#createActionFormBtn(type="submit" class=["uk-button", "uk-button-primary"]) Utworz

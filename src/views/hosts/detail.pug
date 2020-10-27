@@ -2,14 +2,45 @@ extends ../layout
 
 block body
     div(class="uk-section")
-        div(class=["uk-container", "uk-section-muted", "uk-flex", "uk-flex-column"]) Konta do hostow
-            table(class="uk-table")
-                thead
-                    tr
-                        th username
-                        th password
-                tbody
-                    each account in accounts
-                        tr
-                            td #{account.username}
-                            td #{account.password}}
+        div(class=["uk-container", "uk-section-muted", "uk-flex"])
+            div(class=["uk-card", "uk-card-default", "uk-width-1-2"])
+                div(class="uk-card-header") Konta
+                div(class="uk-card-body")
+                    table(class="uk-table")
+                        thead
+                            tr
+                                th username
+                                th password
+                                th opcje
+                        tbody
+                            each account in accounts
+                                tr
+                                    td #{account.username}
+                                    td #{account.password}
+                                    td
+                                        button(class=["uk-button", "uk-button-default"], onclick=`deleteAccount(this, ${account.id})`) Usun
+                    button#createAccountBtn(class=['uk-button', 'uk-button-primary'], uk-toggle={target: "#createAccountModal"}) Dodaj
+                    include ../modals/accounts/createModal
+            div(class=["uk-card", "uk-card-default", "uk-width-1-2"])
+                div(class="uk-card-header") Akcje
+                div(class="uk-card-body")
+                    table(class="uk-table")
+                        thead
+                            tr
+                                th name
+                                th tag
+                                th opcje
+                        tbody
+                            each action in actions
+                                tr
+                                    td #{action.name}
+                                    td #{action.tag}
+                                    td
+                                        button(class=["uk-button", "uk-button-default"], onclick=`deleteAction(this, ${action.id})`) Usun
+                    button#createActionBtn(class=['uk-button', 'uk-button-primary'], uk-toggle={target: "#createActionModal"}) Dodaj
+                    include ../modals/actions/createModal
+block append scripts
+    script.
+        hostId = "#{host.id}"
+    script(src=""+address+"/static/js/accounts.js")
+    script(src=""+address+"/static/js/actions.js")

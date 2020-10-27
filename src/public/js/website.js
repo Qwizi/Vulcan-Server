@@ -76,7 +76,7 @@ sio.on('actions', data => {
         if (options.length === 0) {
             createSelectOption(action.tag, action.name);
         } else {
-            for (let i=0; i < options; i++)
+            for (let i=0; i <= options.length; i++)
             {
                 if (options[i].value !== action.tag) {
                     createSelectOption(action.tag, action.name)

@@ -37,5 +37,5 @@ sio.on("process_list", (data) => {
     })
     processList.innerHTML = processHtml;
     processTable.style.display = "block";
-    hideSpinner('processSpinner');
+    hideSpinner('process');
 })

@@ -9,13 +9,16 @@ block body
                         th name
                         th tag
                         th alias
+                        th opcje
                 tbody
                     each host in hosts
                         tr
                             td
-                                a(href=""+address+"/hosts/"+host.tag) #{host.name}
+                                a(href=""+address+"/hosts/"+host.id) #{host.name}
                             td #{host.tag}
                             td #{host.alias}
+                            td
+                                button(class=["uk-button", "uk-button-default"], onclick=`deleteHost(this, ${host.id})`) Usun
             button#createHostBtn(class=['uk-button', 'uk-button-primary'], uk-toggle={target: "#createHostModal"}) Dodaj
             include ../modals/hosts/createModal
 

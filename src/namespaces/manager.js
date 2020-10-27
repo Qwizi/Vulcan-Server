@@ -85,9 +85,9 @@ module.exports = (namespace, sio) => {
             console.log(host)
 
             const actions = await Action.findAll({where: {HostId: host.dataValues.id}})
-
             let actionsData = [];
-            actions.every(action => {
+            actions.map(action => {
+                console.log(action)
                 const actionObj = {tag: action.tag, name: action.name}
                 actionsData.push(actionObj);
             })

@@ -118,8 +118,9 @@ const errorNotify = (message) => {
     UIkit.notification({message: message, pos: 'bottom-right', status: 'danger'});
 }
 
-const addToTable = (elements) => {
-    const tbody = document.getElementsByTagName('tbody')[0];
+const addToTable = (tableIndex, elements) => {
+    console.log(elements)
+    const tbody = document.getElementsByTagName('tbody')[tableIndex];
     const row = tbody.insertRow(tbody.rows.length);
     elements.map((el, index) => {
         const cell = row.insertCell(index);
