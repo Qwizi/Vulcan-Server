@@ -20,3 +20,8 @@ Server and manager for managing clients
 - Start new process
 - Manage client mouse (move mouse left/right/up/down), click right/left/middle button
 - Change client wallpaper
+
+# Screenshots
+![Alt text](https://i.imgur.com/d7LLNlm.png)
+![Alt text](https://i.imgur.com/gX4HsWz.png)
+![Alt text](https://i.imgur.com/6qssn5N.png)
